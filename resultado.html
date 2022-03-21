@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
+</head>
+<body>
+
+<h2 id="titulo">My Customers</h2>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+<table id="myTable">
+  <tr  class="header">
+    <th>Sigla</th>
+    <th>Cidade</th>
+    <th>Nota Ampla</th>
+    <th>Nota Cota</th>
+    <th>Sua nota</th>
+  </tr>
+</table>
+
+<script>
+var result = JSON.parse(localStorage.getItem("result"))
+document.getElementById("titulo").innerHTML = `Resultado da busca por <b>${result.curso}</b>`
+
+result.lista.sort(function(a, b){return (a.nota.corte-a.nota.aluno) - (b.nota.corte-b.nota.aluno)});
+
+for (let index = 0; index < result.lista.length; index++) {
+    console.log(result.lista[index].nota.aluno >= result.lista[index].nota.corte)
+    document.getElementById("myTable").innerHTML += `<tbody>`
+
+var corcota = '';
+var corampla = '';
+
+    if (result.lista[index].nota.aluno >= result.lista[index].nota.corte) {
+          corcota = `style="background-color: rgba(0, 255, 13, 0.329);"`
+    }else{
+      corcota = `style="background-color: rgba(255, 0, 0, 0.329);"`
+    }
+    if (result.lista[index].nota.aluno >= result.lista[index].nota.ampla) {
+      corampla = `style="background-color: rgba(0, 255, 13, 0.329);"`
+    }else{
+      corampla = `style="background-color: rgba(255, 0, 0, 0.329);"`
+    }
+          document.getElementById("myTable").innerHTML += `<td>${result.lista[index].sigla}</td><td>${result.lista[index].cidade}-${result.lista[index].estado}</td><td ${corampla}>${result.lista[index].nota.ampla}</td><td ${corcota} >${result.lista[index].nota.corte}</td><td>${result.lista[index].nota.aluno}</td>`
+      
+
+    
+}
+
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
+
+</body>
+</html>

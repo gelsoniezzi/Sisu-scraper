@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sistema de cadastro</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+    
+<nav class="navbar navbar-light bg-light justify-content-between up">
+    <a class="navbar-brand" href="#">
+      <img src="logo_cti.png" height="30" class="d-inline-block align-top" alt="">
+    </a>
+    <button class="btn btn-outline-success my-5 my-sm-5 navup"><i class='fas fa-home' style='font-size:20px'></i> home </button>
+    <!-- <button class="btn btn-outline-success my-5 my-sm-5 navup"><i class='fab fa-telegram-plane' style='font-size:20px'></i> Contato </button>
+    <button class="btn btn-outline-success my-5 my-sm-5 navup"><i class='fas fa-question-circle' style='font-size:20px'></i> Ajuda </button> -->
+    <button style="float: right;" class="btn btn-outline-success my-5 my-sm-5 navup"><i class="fas fa-sign-out-alt" style='font-size:20px'></i> Sair </button>
+</nav>
+
+<div class="container upp">
+  <h2>Sistema de listagem de notas</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#Dados">Dados</a></li>
+    <li><a data-toggle="tab" href="#info">Como saber o que colocar</a></li>
+    <!-- <li><a data-toggle="tab" href="#Identificação">Identificação</a></li>
+    <li><a data-toggle="tab" href="#Telefone-E-mail">Telefone/E-mail</a></li> -->
+  </ul>
+
+  <div class="tab-content">
+    <div id="Dados" class="tab-pane fade in active">
+        <form>
+            <div class="form-group">
+              <label for="id_curso">id do curso</label>
+              <input onmouseover="getvalue(this)" onchange="savevalue(this)" type="text" class="form-control" id="id_curso" placeholder="37">
+            </div>
+            <div class="form-group">
+              <label for="Auth">Auth tokens</label>
+              <input onmouseover="getvalue(this)" onchange="savevalue(this)" type="text" class="form-control" id="Auth" placeholder='{"token_type":"Bearer","scope":"govbr_empresa+phone+email+openid+profile","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIwMTYzOTI0MzA5NyIsImF1ZCI6InNpc3VhbHVuby5tZWMuZ292LmJyIiwic2NvcGUiOlsiZW1haWwiLCJnb3Zicl9lbXByZXNhIiwib3BlbmlkIiwicGhvbmUiLCJwcm9maWxlIl0sImFtciI6WyJwYXNzd2QiXSwiaXNzIjoiaHR0cHM6XC9cL3Nzby5hY2Vzc28uZ292LmJyXC8iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiIwMTYzOTI0MzA5NyIsImV4cCI6MTY0NTAzNzExNCwiaWF0IjoxNjQ1MDM1OTE0LCJqdGkiOiI5MTFiNGQ4NC01NTgxLTQzYTUtYTZiYi0xYTg5ZjY0M2EyZTIiLCJjYW5kaWRhdG8iOnsibnVfY3BmIjoiMTYzOTI0MzA5NyIsIm51X25vdGFfciI6IjgyMC4wIiwiY29faW5zY3JpY2FvX2VuZW0iOjIxMTAwODEwNjU0NywiZHRfY2llbnRlX2RhZG9zX2NvbnRhdG8iOiIyMDIyLTAyLTE1IDA3OjQwOjE5LjM4MTAwMDAiLCJpbl90cmVpbmVpcm8iOiIwIn19.dMzyGIp6fA3gE0AIrZq0-jXDnL4fh-b1QQFb9CtEGUTKOxsHgkczYBwrupiTHcmR4wIhZOm6AnuAufZgYmGkqcs3DglVEwR8XmYjrxDdpx25WVYOXZlPnCvJ4wspd9Bt5Yhwk8FfmtFIdA4E7x1ZxcFNs5pTWQ7W9IOZ4BoZplR0BsX45BQepIol9hW4yNNaxs0yaQf9kt0Md1IfmkMHTIdZWTXKwWQ_5Ni0OS1c2LtTo6JdkIhuqli7GJEOqAQsxev2YM7zcIfFrelnVJdiXVC1MgjzeGWuv7UdqLpuHoALgfzRQL1xurQUPJDQ0ECBo5arL8UcUZQe9e5J7-oYfw","expires":1645039514}'>
+            </div>
+            <div class="form-group">
+              <label for="co_concorrencia">co_concorrencia</label>
+              <input onmouseover="getvalue(this)" onchange="savevalue(this)" type="text" class="form-control" id="co_concorrencia" placeholder="5">
+            </div>
+            
+          </form>
+    </div>
+  <button id="submit" onclick="submit()" type="submit" class="btn btn-primary submit">Enviar</button><br>
+  <span id="feedback"></span>
+
+</div>
+<script>
+    const crossAPi = "http://localhost:8080/"
+
+    const objectToArray = obj => {
+    const keys = Object.keys(obj);
+    const res = [];
+    for(let i = 0; i < keys.length; i++){
+       res.push(obj[keys[i]]);
+    };
+    return res;
+ };
+ function savevalue(this_){
+            localStorage.setItem(this_.id, this_.value);
+
+        }
+        function getvalue(this_){
+           this_.value = localStorage.getItem(this_.id);
+
+        }
+   async function submit(){
+    document.getElementById("submit").disabled = true;
+
+        var inputs = document.getElementsByTagName("input");
+        var selects = document.getElementsByTagName("select");
+
+        const id_curso = document.getElementById("id_curso").value
+        const auth = JSON.parse(document.getElementById("Auth").value)
+        const co_concorrencia = document.getElementById("co_concorrencia").value
+
+        var result = {};
+        result.lista = [];  
+
+        var ofertas = await fetch(`${crossAPi}https://sisualuno-api-pcr.apps.mec.gov.br/api/v1/oferta/curso/${id_curso}`)
+        ofertas = await ofertas.json()
+        console.log(ofertas)
+        result.curso = ofertas.search_rule;
+        ofertas = objectToArray(ofertas)
+
+        for (let index = 0; index < ofertas.length; index++) {
+            if(ofertas[index].co_oferta){
+                var oferta = await fetch(`${crossAPi}https://sisualuno-api-pcr.apps.mec.gov.br/api/v1/oferta/${ofertas[index].co_oferta}/modalidades/candidato`,{
+                "headers": {
+                    "accept": "application/json, text/plain, */*",
+                    "authorization": `${auth.token_type} ${auth.access_token}`,
+                    "content-type": "application/json",
+                    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Sidekick\";v=\"96\"",
+                    "sec-ch-ua-mobile": "?1",
+                    "sec-ch-ua-platform": "\"Android\"",
+                    "Referer": "https://sisualuno.mec.gov.br/",
+                    "Referrer-Policy": "strict-origin-when-cross-origin"
+                }})
+                oferta = await oferta.json()
+
+               
+                result.lista[index] = {};
+                result.lista[index].nota = {};
+                for (let id_cota = 0; id_cota < oferta.modalidades.length; id_cota++) {
+                    if(oferta.modalidades[id_cota].co_concorrencia == co_concorrencia) {
+                        console.log(id_cota)
+                        console.log(oferta.modalidades[id_cota])
+                        result.lista[index].nota.corte = oferta.modalidades[id_cota].nu_nota_corte;
+                        result.lista[index].nota.aluno = oferta.modalidades[id_cota].nu_nota_candidato;
+                    }                  
+                }
+                if(!result.lista[index].nota.aluno){
+                    console.log("Cota não econtrada")
+                    console.log(oferta.modalidades)
+                    result.lista[index].nota.corte = "Cota não econtrada";
+                    result.lista[index].nota.aluno = oferta.modalidades[0].nu_nota_candidato;
+                }
+                result.lista[index].nota.ampla = oferta.modalidades[0].nu_nota_corte
+                result.lista[index].sigla = oferta.oferta.sg_ies;
+                result.lista[index].estado = oferta.oferta.sg_uf_campus;
+                result.lista[index].cidade = oferta.oferta.no_municipio_campus;
+                document.getElementById("feedback").innerHTML = `${result.lista.length} instituições encontradas até o momento<br>Buscando nota <b>${oferta.oferta.sg_ies}</b>`
+            }
+        }
+        console.log(result)
+        localStorage.setItem("result", JSON.stringify(result));
+        window.location.assign("./resultado.html");
+
+
+        
+
+}
+</script>
+</body>
+</html>
