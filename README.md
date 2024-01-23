@@ -13,6 +13,10 @@ const cota = "Candidatos que, independentemente da renda (art. 14, II, Portaria 
   ```js
   sessionStorage.getItem("auth");
   ```
+
+## Cotas
+
+
 ## Roda o script:
 e salva o resultado em Resultado.txt
 ```shell
